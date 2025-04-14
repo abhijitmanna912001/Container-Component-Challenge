@@ -1,4 +1,11 @@
+import axios from "axios";
+import ProductList from "./components/ProductList";
 import DataSource from "./components/shared/DataSource";
+
+const getServerData = (url: string) => async () => {
+  const response = await axios.get(url);
+  return response.data;
+};
 
 const App = () => {
   return (
@@ -7,7 +14,9 @@ const App = () => {
       <DataSource
         getDataFunc={getServerData("https://fakestoreapi.com/products")}
         resourceName="products"
-      ></DataSource>
+      >
+        <ProductList />
+      </DataSource>
     </div>
   );
 };
