@@ -1,17 +1,17 @@
 import React, { ReactNode, useEffect, useState } from "react";
 
 interface DataSourceProps {
-  getDataFunc?: () => void;
+  getDataFunc?: () => Promise<unknown>;
   resourceName: string;
   children: ReactNode;
 }
 
 const DataSource = ({
-  getDataFunc = () => {},
+  getDataFunc = async () => null,
   resourceName,
   children,
 }: DataSourceProps) => {
-  const [state, setState] = useState<any>(null);
+  const [state, setState] = useState<unknown>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const DataSource = ({
       try {
         const data = await getDataFunc();
         setState(data);
-      } catch (err) {
+      } catch {
         setError("Failed to fetch data");
       }
     })();
